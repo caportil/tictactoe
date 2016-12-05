@@ -25,11 +25,12 @@ var assignY = function(x, y) {
   grid[x][y] = 'Y'
 }
 
-rl.question('What do you think of Node.js? ', function(answer) {
+rl.question('Welcome to tic-tac-toe! Player 1, please enter a coordinate in "x,y" format!', function(coordinate) {
   // TODO: Log the answer in a database
-  console.log(`Thank you for your valuable feedback: ${answer}`);
-  assignX(1,1);
-  console.log('Current grid:', grid)
+  var coordinate = coordinate.split(",").map(function(string) {return Number(string)});
+  console.log(coordinate, typeof coordinate[0])
+  assignX(coordinate[0], coordinate[1]);
+  console.log(`Thank you for your selection! Current grid:`, grid);
 
 
   rl.close();

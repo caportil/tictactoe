@@ -17,15 +17,35 @@ var grid = [
 ['_', '_', '_']
 ];
 
+var gameOver = false;
+
 var assignX = function(x, y) {
   grid[x][y] = 'X';
 }
 
-var assignY = function(x, y) {
-  grid[x][y] = 'Y'
+var assignO = function(x, y) {
+  grid[x][y] = 'O'
 }
 
-rl.question('Welcome to tic-tac-toe! Player 1, please enter a coordinate in "x,y" format!', function(coordinate) {
+var checkWonX = function() {
+  grid.forEach(function(row) {
+    if (row.indexOf('O') < 0 && row.indexOf('_' < 0)) {
+      gameOver = true;
+      return true;
+    }
+  })
+}
+
+var checkWonY = function() {
+  grid.forEach(function(row) {
+    if (row.indexOf('Y') < 0 && row.indexOf('_' < 0)) {
+      gameOver = true;
+      return true;
+    }
+  })
+}
+
+var requestX = function(coordinate, callback) {
   // TODO: Log the answer in a database
   var coordinate = coordinate.split(",").map(function(string) {return Number(string)});
   console.log(coordinate, typeof coordinate[0])
@@ -33,8 +53,26 @@ rl.question('Welcome to tic-tac-toe! Player 1, please enter a coordinate in "x,y
   console.log(`Thank you for your selection! Current grid:`, grid);
 
 
+  // rl.close();
+}
+
+var requestO = function(coordinate, callback) {
+  // TODO: Log the answer in a database
+  var coordinate = coordinate.split(",").map(function(string) {return Number(string)});
+  console.log(coordinate, typeof coordinate[0])
+  assignO(coordinate[0], coordinate[1]);
+  console.log(`Thank you for your selection! Current grid:`, grid);
+
+
+}
+
+
+rl.question('Welcome to tic-tac-toe! Player 1, please enter a coordinate in "x,y" format!', function(response) {
+  requestX(response)
   rl.close();
 })
+
+
 
 
 // rl.question('What about this module "readline"?', function(answer) {

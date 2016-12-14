@@ -33,18 +33,19 @@ var endGame = function() {
   rl.close();
 }
 
-var checkWonX = function() {
+var checkPlayerVictory = function(token, opponent) {
   // Check if any horizontal victories
   grid.forEach(function(row, idx) {
-    if (row.indexOf('O') < 0 && row.indexOf('_') < 0) {
-      console.log('X victory across row ' + idx + '!')
+    if (row.indexOf(opponent) < 0 && row.indexOf('_') < 0) {
+      console.log(token + ' victory across row ' + idx + '!')
       gameOver = true;
+      return;
     }
   })
 
   // Check if any column victories
   for (var column = 0; column < grid.length; column++) {
-    if (grid[0][column] === 'X' && grid[1][column] === 'X' && grid[2][column] === 'X') {
+    if (grid[0][column] === token && grid[1][column] === token && grid[2][column] === token) {
       gameOver = true;
       break;
     }
@@ -54,14 +55,20 @@ var checkWonX = function() {
   // Middle location === 1,1
   // Bottom right location === 2,2
   // Check if three going from top left -> bottom right === victory
-  if (grid[0][0] === 'X' && grid[1][1] === 'X' && grid[2][2] === 'X' ) {
+  if (grid[0][0] === token && grid[1][1] === token && grid[2][2] === token ) {
     gameOver = true;
+    return;
   }
 
   // Check if opposite direction (0,2 -> 1,1 -> 2,0 )
-  if (grid[0][2] === 'X' && grid[1][1] === 'X' && grid[2][0] === 'X' ) {
+  if (grid[0][2] === token && grid[1][1] === token && grid[2][0] === token ) {
     gameOver = true;
+    return;
   }
+}
+
+var checkWonX = function() {
+  checkPlayerVictory('X', 'O');
 
   if (gameOver) {
     console.log('gameOver has officially been set to true!')
@@ -72,33 +79,7 @@ var checkWonX = function() {
 }
 
 var checkWonO = function() {
-  grid.forEach(function(row, idx) {
-    if (row.indexOf('X') < 0 && row.indexOf('_') < 0) {
-      console.log('O victory across row ' + idx + '!')
-      gameOver = true;
-    }
-  })
-
-  // Check if any column victories
-  for (var column = 0; column < grid.length; column++) {
-    if (grid[0][column] === 'O' && grid[1][column] === 'O' && grid[2][column] === 'O') {
-      gameOver = true;
-      break;
-    }
-  }
-
-  // Top left location === 0,0
-  // Middle location === 1,1
-  // Bottom right location === 2,2
-  // Check if three going from top left -> bottom right === victory
-  if (grid[0][0] === 'O' && grid[1][1] === 'O' && grid[2][2] === 'O' ) {
-    gameOver = true;
-  }
-
-  // Check if opposite direction (0,2 -> 1,1 -> 2,0 )
-  if (grid[0][2] === 'O' && grid[1][1] === 'O' && grid[2][0] === 'O' ) {
-    gameOver = true;
-  }
+  checkPlayerVictory('O', 'X');
 
   if (gameOver) {
     console.log('gameOver has officially been set to true!')

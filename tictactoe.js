@@ -33,12 +33,26 @@ var endGame = function() {
 }
 
 var checkWonX = function() {
+  // Check if any horizontal victories
   grid.forEach(function(row, idx) {
     if (row.indexOf('O') < 0 && row.indexOf('_') < 0) {
       console.log('X victory across row ' + idx + '!')
       gameOver = true;
     }
   })
+
+  // Top left location === 0,0
+  // Middle location === 1,1
+  // Bottom right location === 2,2
+  // Check if three going from top left -> bottom right === victory
+  if (grid[0][0] === 'X' && grid[1][1] === 'X' grid[2][2] === 'X' ) {
+    gameOver = true;
+  }
+
+  // Check if opposite direction (0,2 -> 1,1 -> 2,0 )
+  if (grid[0][2] === 'X' && grid[1][1] === 'X' grid[2][0] === 'X' ) {
+    gameOver = true;
+  }
 
   if (gameOver) {
     console.log('gameOver has officially been set to true!')

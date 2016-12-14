@@ -27,33 +27,59 @@ var assignO = function(x, y) {
   grid[x][y] = 'O'
 }
 
-var checkWonX = function() {
-  grid.forEach(function(row) {
-    if (row.indexOf('O') < 0 && row.indexOf('_' < 0)) {
-      gameOver = true;
-      return true;
-    }
-  })
+var endGame = function() {
+  console.log('End game reached!')
+  rl.close();
 }
 
-var checkWonY = function() {
-  grid.forEach(function(row) {
-    if (row.indexOf('Y') < 0 && row.indexOf('_' < 0)) {
+var checkWonX = function() {
+  grid.forEach(function(row, idx) {
+    if (row.indexOf('O') < 0 && row.indexOf('_') < 0) {
+      console.log('X victory across row ' + idx + '!')
       gameOver = true;
-      return true;
     }
   })
+
+  if (gameOver) {
+    console.log('gameOver has officially been set to true!')
+    endGame();
+    return true;
+  }
+  console.log('Still running checkWonX...')
+}
+
+var checkWonO = function() {
+  grid.forEach(function(row, idx) {
+    if (row.indexOf('X') < 0 && row.indexOf('_') < 0) {
+      console.log('O victory across row ' + idx + '!')
+      gameOver = true;
+    }
+  })
+
+  if (gameOver) {
+    console.log('gameOver has officially been set to true!')
+    endGame();
+    return true;
+  }
+  console.log('Still running checkWonO...')
+}
+
+var checkGameOver = function(callback) {
+  if (checkWonX() || checkWonO()) {
+    console.log('Game over!')
+  } else {
+    console.log('Beginning new turn!')
+    callback();
+  }
 }
 
 var requestX = function(coordinate, callback) {
-  // TODO: Log the answer in a database
   var coordinate = coordinate.split(",").map(function(string) {return Number(string)});
   console.log(coordinate, typeof coordinate[0])
   assignX(coordinate[0], coordinate[1]);
   console.log(`Thank you for your selection! Current grid:`, grid);
 
-
-  // rl.close();
+  checkGameOver(callback);
 }
 
 var requestO = function(coordinate, callback) {
@@ -63,20 +89,24 @@ var requestO = function(coordinate, callback) {
   assignO(coordinate[0], coordinate[1]);
   console.log(`Thank you for your selection! Current grid:`, grid);
 
-
+  checkGameOver(callback);
 }
 
+var runPlayer1Turn = function() {
+  rl.question('Player 1, please enter a coordinate in "x,y" format!', function(response) {
+    requestX(response, runPlayer2Turn);
+  })
+}
 
-rl.question('Welcome to tic-tac-toe! Player 1, please enter a coordinate in "x,y" format!', function(response) {
-  requestX(response)
-  rl.close();
-})
+var runPlayer2Turn = function() {
+  rl.question('Player 2, please enter a coordinate in "x,y" format!', function(response) {
+    requestO(response, playFullTurn);
+  })
+  
+}
 
+var playFullTurn = function() {
+  runPlayer1Turn();
+}
 
-
-
-// rl.question('What about this module "readline"?', function(answer) {
-//     console.log('Thanks for responding with:', answer + '!')
-
-//     rl.close();
-// }
+playFullTurn();

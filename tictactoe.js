@@ -11,6 +11,7 @@ var rl = readline.createInterface({
   output: process.stdout
 });
 
+// Establish blank grid
 var grid = [
 ['_', '_', '_'],
 ['_', '_', '_'],
@@ -41,16 +42,24 @@ var checkWonX = function() {
     }
   })
 
+  // Check if any column victories
+  for (var column = 0; column < grid.length; column++) {
+    if (grid[0][column] === 'X' && grid[1][column] === 'X' && grid[2][column] === 'X') {
+      gameOver = true;
+      break;
+    }
+  }
+
   // Top left location === 0,0
   // Middle location === 1,1
   // Bottom right location === 2,2
   // Check if three going from top left -> bottom right === victory
-  if (grid[0][0] === 'X' && grid[1][1] === 'X' grid[2][2] === 'X' ) {
+  if (grid[0][0] === 'X' && grid[1][1] === 'X' && grid[2][2] === 'X' ) {
     gameOver = true;
   }
 
   // Check if opposite direction (0,2 -> 1,1 -> 2,0 )
-  if (grid[0][2] === 'X' && grid[1][1] === 'X' grid[2][0] === 'X' ) {
+  if (grid[0][2] === 'X' && grid[1][1] === 'X' && grid[2][0] === 'X' ) {
     gameOver = true;
   }
 
@@ -59,7 +68,7 @@ var checkWonX = function() {
     endGame();
     return true;
   }
-  console.log('Still running checkWonX...')
+  // console.log('Still running checkWonX...')
 }
 
 var checkWonO = function() {
@@ -70,12 +79,33 @@ var checkWonO = function() {
     }
   })
 
+  // Check if any column victories
+  for (var column = 0; column < grid.length; column++) {
+    if (grid[0][column] === 'O' && grid[1][column] === 'O' && grid[2][column] === 'O') {
+      gameOver = true;
+      break;
+    }
+  }
+
+  // Top left location === 0,0
+  // Middle location === 1,1
+  // Bottom right location === 2,2
+  // Check if three going from top left -> bottom right === victory
+  if (grid[0][0] === 'O' && grid[1][1] === 'O' && grid[2][2] === 'O' ) {
+    gameOver = true;
+  }
+
+  // Check if opposite direction (0,2 -> 1,1 -> 2,0 )
+  if (grid[0][2] === 'O' && grid[1][1] === 'O' && grid[2][0] === 'O' ) {
+    gameOver = true;
+  }
+
   if (gameOver) {
     console.log('gameOver has officially been set to true!')
     endGame();
     return true;
   }
-  console.log('Still running checkWonO...')
+  // console.log('Still running checkWonO...')
 }
 
 var checkGameOver = function(callback) {

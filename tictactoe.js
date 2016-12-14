@@ -123,13 +123,9 @@ function runPlayer1Turn() {
 
 function runPlayer2Turn() {
   rl.question('Player 2, please enter a coordinate in "x,y" format!', function(response) {
-    requestO(response, playFullTurn);
+    requestO(response, runPlayer1Turn);
   })
   
 }
 
-function playFullTurn() {
-  runPlayer1Turn();
-}
-
-playFullTurn();
+runPlayer1Turn();

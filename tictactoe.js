@@ -33,7 +33,7 @@ var endGame = function() {
   rl.close();
 }
 
-var checkPlayerVictory = function(token, opponent) {
+function checkPlayerVictory(token, opponent) {
   // Check if any horizontal victories
   grid.forEach(function(row, idx) {
     if (row.indexOf(opponent) < 0 && row.indexOf('_') < 0) {
@@ -67,7 +67,7 @@ var checkPlayerVictory = function(token, opponent) {
   }
 }
 
-var checkWonX = function() {
+function checkWonX()  {
   checkPlayerVictory('X', 'O');
 
   if (gameOver) {
@@ -75,10 +75,9 @@ var checkWonX = function() {
     endGame();
     return true;
   }
-  // console.log('Still running checkWonX...')
 }
 
-var checkWonO = function() {
+function checkWonO() {
   checkPlayerVictory('O', 'X');
 
   if (gameOver) {
@@ -86,10 +85,9 @@ var checkWonO = function() {
     endGame();
     return true;
   }
-  // console.log('Still running checkWonO...')
 }
 
-var checkGameOver = function(callback) {
+function checkGameOver(callback) {
   if (checkWonX() || checkWonO()) {
     console.log('Game over!')
   } else {
@@ -98,7 +96,7 @@ var checkGameOver = function(callback) {
   }
 }
 
-var requestX = function(coordinate, callback) {
+function requestX(coordinate, callback) {
   var coordinate = coordinate.split(",").map(function(string) {return Number(string)});
   console.log(coordinate, typeof coordinate[0])
   assignX(coordinate[0], coordinate[1]);
@@ -107,7 +105,7 @@ var requestX = function(coordinate, callback) {
   checkGameOver(callback);
 }
 
-var requestO = function(coordinate, callback) {
+function requestO(coordinate, callback) {
   // TODO: Log the answer in a database
   var coordinate = coordinate.split(",").map(function(string) {return Number(string)});
   console.log(coordinate, typeof coordinate[0])
@@ -117,20 +115,20 @@ var requestO = function(coordinate, callback) {
   checkGameOver(callback);
 }
 
-var runPlayer1Turn = function() {
+function runPlayer1Turn() {
   rl.question('Player 1, please enter a coordinate in "x,y" format!', function(response) {
     requestX(response, runPlayer2Turn);
   })
 }
 
-var runPlayer2Turn = function() {
+function runPlayer2Turn() {
   rl.question('Player 2, please enter a coordinate in "x,y" format!', function(response) {
     requestO(response, playFullTurn);
   })
   
 }
 
-var playFullTurn = function() {
+function playFullTurn() {
   runPlayer1Turn();
 }
 
